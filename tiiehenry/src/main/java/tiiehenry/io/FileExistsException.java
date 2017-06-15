@@ -3,7 +3,7 @@ package tiiehenry.io;
 public class FileExistsException extends Exception
 {
   public FileExistsException(){
-	super();
+	super("FileExists");
   }
   
   public FileExistsException(String path){
