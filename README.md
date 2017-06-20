@@ -5,7 +5,7 @@
 ### 使用方法
 >克隆git库:   
 >>https://github.com/TIIEHenry/TIIEHenry-Android-SDK.git  
-并添加 **tiiehenry** 到项目
+>>>添加 **tiiehenry** 到项目
 
 ### 包列表
 > 
@@ -20,7 +20,6 @@
 
  
 <h2 id="app">tiiehenry.app</h2>  
-<style> table th:first-of-type { width: 100px; } </style>
 
 | Name | Type  | Description |
 | :------------: |:---------------:| :-----:|
@@ -28,47 +27,42 @@
 
 
 <h3 id="content">tiiehenry.content</h3>  
-<style> table th:first-of-type { width: 100px; } </style>
 
-| Name | Type  | Description|
-| :------------: |:---------------:| :-----:|
-| SharedPreferences | class | SharedPreferences的更好使用  |
+| Name | Description|
+| :------------: | :-----:|
+| SharedPreferences | SharedPreferences的更好使用  |
 
 
 <h4 id="debug">tiiehenry.debug</h4>  
-<style> table th:first-of-type { width: 100px; } </style>
 
-| Name | Type  | Description|
-| :------------: |:---------------:| :-----:|
-| CrashHandler | class | CrashHandler.init(Context,崩溃文件保存路径) 需要权限 |
+| Name | Description|
+| :------------: | :-----:|
+| CrashHandler | CrashHandler.init(Context,崩溃文件保存路径) 需要权限 |
 
 
 <h5 id="io">tiiehenry.io</h5>  
-<style> table th:first-of-type { width: 100px; } </style>
 
-| Name | Type  | Description|
-| :------------: |:---------------:| :-----:|
-| Path | extends File | 完全取代File  |
+| Name | Description |
+| :------------: | :-----:|
+| FileExistsException | None |
+| Path | 完全取代File  |
 
 <h6 id="lang">tiiehenry.lang</h6>  
-<style> table th:first-of-type { width: 100px; } </style>
 
-| Name | Type  | Description|
-| :------------: |:---------------:| :-----:|
-| None | interface | None  |
+| Name | Description|
+| :------------:| :-----:|
+| None | None  |
 
 <h7 id="lua">tiiehenry.lua</h7>  
-<style> table th:first-of-type { width: 100px; } </style>
 
-| Name | Type  | Description|
-| :------------: |:---------------:| :-----:|
-| string | class | 仿lua的字符处理方法  |
+| Name  | Description|
+| :------------: | :-----:|
+| string | 仿lua的字符处理方法  |
 
 <h8 id="os">tiiehenry.os</h8>  
-<style> table th:first-of-type { width: 100px; } </style>
 
-| Name | Type  | Description|
+| Name  | Description|
 | :------------: |:---------------:| :-----:|
-| Env | class | 存储相关类  |
+| Env | 存储相关类  |
 
 [▲ 回到顶部](#top)
