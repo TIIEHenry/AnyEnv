@@ -1,23 +1,18 @@
 package tiiehenry.app;
-import android.app.Activity;
+
 import android.view.View.*;
-import android.view.View;
+
 import android.os.Bundle;
+import android.view.View;
 
-public abstract class BaseActivity extends Activity implements OnClickListener,OnLongClickListener
-{
+public interface BaseActivity extends OnClickListener,OnLongClickListener {
 
-  @Override
-  protected void onCreate(Bundle s) {
-	
-	super.onCreate(s);
-  }
+  void onCreate(Bundle s) 
 
   @Override
-  public abstract void onClick(View p1)
+  void onClick(View v)
 
   @Override
-  public abstract boolean onLongClick(View p1) 
+  boolean onLongClick(View v)
 
-  
 }
