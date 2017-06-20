@@ -7,6 +7,6 @@ public class FileExistsException extends Exception
   }
   
   public FileExistsException(String path){
-	super("Path:"+path);
+	super("FileExists Path:"+path);
   }
 }
