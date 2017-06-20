@@ -5,11 +5,12 @@ import java.util.*;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.content.SharedPreferences.Editor;
 
 public class SharedPreferences {
 
   public android.content.SharedPreferences sp;
-  public android.content.SharedPreferences.Editor editor;
+  public Editor editor;
 
   @NonNull
   public SharedPreferences(Context c, String fileName) {
@@ -23,6 +24,9 @@ public class SharedPreferences {
 	editor = sp.edit();
   }
 
+  public Editor edit() {
+	return editor;
+  }
 
   public void registerOnSharedPreferenceChangeListener(android.content.SharedPreferences.OnSharedPreferenceChangeListener l) {
 	sp.registerOnSharedPreferenceChangeListener(l);
@@ -50,13 +54,14 @@ public class SharedPreferences {
 	  editor.putFloat(key, (Float) object);
 	} else if (object instanceof Long) {
 	  editor.putLong(key, (Long) object);
+	} else if (object instanceof Set) {
+	  editor.putStringSet(key, (Set)object);
 	} else {
 	  editor.putString(key, object.toString());
 	}
-
 	Compat.apply(editor);
   }
-  public SharedPreferences putStringSet(String key, Set<java.lang.String> object) {
+  public SharedPreferences putStringSet(String key, Set<String> object) {
 	editor.putStringSet(key, object);
 	return this;
   }
@@ -64,26 +69,42 @@ public class SharedPreferences {
   /**
    * 得到保存数据的方法，我们根据默认值得到保存的数据的具体类型，然后调用相对于的方法获取值
    * @param key
-   * @param defaultObject
+   * @param defObject
    * @return
    */
   @NonNull
-  public  Object get(String key, Object defaultObject) {
-	if (defaultObject instanceof String) {
-	  return sp.getString(key, (String) defaultObject);
-	} else if (defaultObject instanceof Integer) {
-	  return sp.getInt(key, (Integer) defaultObject);
-	} else if (defaultObject instanceof Boolean) {
-	  return sp.getBoolean(key, (Boolean) defaultObject);
-	} else if (defaultObject instanceof Float) {
-	  return sp.getFloat(key, (Float) defaultObject);
-	} else if (defaultObject instanceof Long) {
-	  return sp.getLong(key, (Long) defaultObject);
+  public  Object get(String key, Object defObject) {
+	if (defObject instanceof String) {
+	  return sp.getString(key, (String) defObject);
+	} else if (defObject instanceof Integer) {
+	  return sp.getInt(key, (Integer) defObject);
+	} else if (defObject instanceof Boolean) {
+	  return sp.getBoolean(key, (Boolean) defObject);
+	} else if (defObject instanceof Float) {
+	  return sp.getFloat(key, (Float) defObject);
+	} else if (defObject instanceof Long) {
+	  return sp.getLong(key, (Long) defObject);
 	}
 	return null;
   }
   public Set<String> getStringSet(String key, java.util.Set<String> def) {
 	return sp.getStringSet(key, def);
+  }
+  
+  public int getInt(String key, int def){
+	return sp.getInt(key,def);
+  }
+
+  public long getLong(String key, long def){
+	return sp.getLong(key,def);
+  }
+
+  public float getFloat(String key, float def){
+	return sp.getFloat(key,def);
+  }
+
+  public boolean getBoolean(String key, boolean def){
+	return sp.getBoolean(key,def);
   }
   
   /**
@@ -171,6 +192,9 @@ public class SharedPreferences {
 	  editor.commit();
 	}
   }
-
+  public static abstract interface OnSharedPreferenceChangeListener extends android.content.SharedPreferences.OnSharedPreferenceChangeListener{
+	public abstract void onSharedPreferenceChanged(android.content.SharedPreferences p1, java.lang.String p2);
+  }
+  
 }
 
