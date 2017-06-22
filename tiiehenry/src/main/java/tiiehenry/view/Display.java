@@ -2,14 +2,24 @@ package tiiehenry.view;
 import android.content.Context;
 import android.util.TypedValue;
 import android.util.DisplayMetrics;
+import android.view.WindowManager;
 
-public class Display{
+public class Display {
 
   private DisplayMetrics dm;
-  
+  private WindowManager wm;
+
   public Display(Context c) {
+	wm = (WindowManager) c.getSystemService(Context.WINDOW_SERVICE);
 	dm = c.getResources().getDisplayMetrics();
   }
+  public int getWidth() {
+	return wm.getDefaultDisplay().getWidth();
+  }
+  public int getHeight() {
+	return wm.getDefaultDisplay().getHeight();
+  }
+  
   public float dp2px(float dpVal) {
 	return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpVal, dm);
   }

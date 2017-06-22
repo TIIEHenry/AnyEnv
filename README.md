@@ -19,7 +19,7 @@
 
 
  
-<h2 id="app">tiiehenry.app</h2>  
+<h3 id="app">tiiehenry.app</h3>  
 
 | Name | Type  | Description |
 | :------------: |:---------------:| :-----:|
@@ -33,36 +33,37 @@
 | SharedPreferences | SharedPreferences的更好使用  |
 
 
-<h4 id="debug">tiiehenry.debug</h4>  
+<h3 id="debug">tiiehenry.debug</h3>  
 
 | Name | Description|
 | :------------: | :-----:|
 | CrashHandler | CrashHandler.init(Context,崩溃文件保存路径) 需要权限 |
 
 
-<h5 id="io">tiiehenry.io</h5>  
+<h3 id="io">tiiehenry.io</h3>  
 
 | Name | Description |
 | :------------: | :-----:|
-| FileExistsException | None |
+| FileExistsException | IOException |
 | Path | 完全取代File  |
+| util.ZipUtil | Zip压缩解压 |
 
-<h6 id="lang">tiiehenry.lang</h6>  
+<h3 id="lang">tiiehenry.lang</h3>  
 
 | Name | Description|
 | :------------:| :-----:|
 | None | None  |
 
-<h7 id="lua">tiiehenry.lua</h7>  
+<h3 id="lua">tiiehenry.lua</h3>  
 
 | Name  | Description|
 | :------------: | :-----:|
 | string | 仿lua的字符处理方法  |
 
-<h8 id="os">tiiehenry.os</h8>  
+<h3 id="os">tiiehenry.os</h3>  
 
 | Name  | Description|
-| :------------: |:---------------:| :-----:|
+| :------------: |:-----------:|
 | Env | 存储相关类  |
 
 [▲ 回到顶部](#top)

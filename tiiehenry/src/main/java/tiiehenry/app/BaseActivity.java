@@ -5,14 +5,10 @@ import android.view.View.*;
 import android.os.Bundle;
 import android.view.View;
 
-public interface BaseActivity extends OnClickListener,OnLongClickListener {
+public interface BaseActivity extends OnClickListener {
 
-  void onCreate(Bundle s) 
-
-  @Override
+   @Override
   void onClick(View v)
 
-  @Override
-  boolean onLongClick(View v)
 
 }
