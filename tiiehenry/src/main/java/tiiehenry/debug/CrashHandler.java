@@ -154,7 +154,9 @@ public class CrashHandler  implements UncaughtExceptionHandler {
 	String time = format.format(new Date());
 	Path path = new Path(dir + "/" + time + "-" + timetamp + ".log");
 	path.getParentFile().mkdir();
-	path.writeString(s);
+	try {
+	  path.writeString(s);
+	} catch (IOException e) {}
 
   }
 }

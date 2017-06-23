@@ -51,6 +51,7 @@ public class ZipUtil {
 	onUpdateListener = listener;
 	return this;
   }
+
   public void zipDir(File dir, File zipFile) throws FileNotFoundException,FileExistsException, IOException {
 	zip(new Path(dir).getDirMap(), zipFile);
   }
@@ -124,8 +125,21 @@ public class ZipUtil {
 		}
 	  }
 	}
+  }
+  public InputStream getInputStream(String name) throws IOException {
+	ZipFile zf = new ZipFile(zipFile);  
+	FileInputStream fis= new FileInputStream(zipFile);
+	CheckedInputStream cos = new CheckedInputStream(fis, checksum);
+	ZipInputStream zis = new ZipInputStream(new BufferedInputStream(cos));
 
-
+	ZipEntry entry;
+	while ((entry = zis.getNextEntry()) != null) {
+	  String entryName=entry.getName();
+	  if (entryName.equals(name)) {
+		return new ZipFile(zipFile).getInputStream(entry);
+	  }
+	}
+	return null;
   }
 
   public void unZip(String name, File outFile) throws IOException {
@@ -172,7 +186,7 @@ public class ZipUtil {
 	}
   }
 
-  public void unZip(ZipInputStream zis, ArrayMap<String,File> files) throws FileExistsException, IOException {
+  private void unZip(ZipInputStream zis, ArrayMap<String,File> files) throws FileExistsException, IOException {
 	ZipEntry entry;
 	while ((entry = zis.getNextEntry()) != null) {
 	  String entryName=entry.getName();
@@ -196,9 +210,9 @@ public class ZipUtil {
 	}
   }
 
-  public void append(String zipFilePath, String appendFilePath) throws Exception { 
-	ZipFile war = new ZipFile(zipFilePath);
-	ZipOutputStream append = new ZipOutputStream(new FileOutputStream(zipFilePath));
+  public void append(String appendFilePath) throws Exception { 
+	ZipFile war = new ZipFile(zipFile);
+	ZipOutputStream append = new ZipOutputStream(new FileOutputStream(zipFile));
 
 	Enumeration<? extends ZipEntry> entries = war.entries(); 
 	while (entries.hasMoreElements()) {  
@@ -218,6 +232,7 @@ public class ZipUtil {
 	war.close();
 	append.close(); 
   }  
+
   public static interface OnUpdateListener {
 	public void onUpdate(String name, File out)
   }

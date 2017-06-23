@@ -79,15 +79,21 @@ public class Path extends File {
 	return true;
   }
 
-  public boolean writeString(String s) {
+  public boolean writeString(String s) throws IOException {
+	return writeString(s, false);
+  }
+  public boolean writeString(String s, boolean append) throws IOException {
+	BufferedWriter bw=null;
 	try {
-	  FileOutputStream fos = new FileOutputStream(this);
-	  fos.write(s.getBytes());
-	  fos.close();
-	  return true;
+	  bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(this, append)));
+	  bw.write(s);
 	} catch (IOException|FileNotFoundException e) {
-	  return false;
-	}  
+	  throw e;
+	} finally {
+	  if (bw != null)
+		bw.close();
+	}
+	return true;
   }
 
   public String readString() throws IOException {
@@ -97,7 +103,7 @@ public class Path extends File {
   public String readString(String encoding) throws IOException {
 	return readStreamString(getInputStream(), encoding);
   }
-  
+
   private void addFileToMap(ArrayMap<String,File> files, String namePerfix, File dir) {
 	for (File f:dir.listFiles()) {
 	  String fname=f.getName();
@@ -110,13 +116,13 @@ public class Path extends File {
   }
   //获取文件树 ("music/a.mp3",File)
   public ArrayMap<String,File> getDirMap() {
-	if(!isDirectory())
+	if (!isDirectory())
 	  return null;
 	ArrayMap<String,File> files=new ArrayMap<>();
 	addFileToMap(files, "", this);
 	return files;
   }
-  
+
   public static void deleteDir(File dir) {
 	for (File file : dir.listFiles()) {
 	  if (file.isFile())
@@ -133,13 +139,13 @@ public class Path extends File {
   public static void copyStream(InputStream i, OutputStream o) throws IOException {
 	copyStream(i, o, DEF_BYTESIZE);
   }
-  
+
   @NonNull
   public static void copyStream(InputStream i, OutputStream o, int byteSize) throws IOException {
 	byte[] buffer=new byte[byteSize];
-	copyStream(i,o,buffer);
+	copyStream(i, o, buffer);
   }
-  
+
   @NonNull
   public static void copyStream(InputStream i, OutputStream o, byte[] buffer) throws IOException {
 	int s;
@@ -154,15 +160,37 @@ public class Path extends File {
   }
 
   @NonNull
-  public static String readStreamString(InputStream i, String encoding) throws UnsupportedEncodingException, IOException {
-	InputStreamReader read = new InputStreamReader(i, encoding);//考虑到编码格式
-	BufferedReader bufferedReader = new BufferedReader(read);
-	String lineTxt = null;
-	String o=bufferedReader.readLine();
-	while ((lineTxt = bufferedReader.readLine()) != null) {
-	  o = o + "\n" + lineTxt;
+  public static String readStreamString(InputStream i, String encoding) throws IOException {
+	//考虑到编码格式
+	BufferedReader bufferedReader=null;
+	StringBuffer sb=sb = new StringBuffer();
+	try {
+	  bufferedReader = new BufferedReader(new InputStreamReader(i, encoding));
+	  String lineTxt = null;
+	  while ((lineTxt = bufferedReader.readLine()) != null) {
+		sb.append(lineTxt);
+	  }
+	} catch (UnsupportedEncodingException|IOException e) {
+	  throw e;
+	} finally {
+	  if (bufferedReader != null)
+		bufferedReader.close();
 	}
-	read.close();
-	return o;
+	return sb.toString();
+  }
+
+  public static byte[] readBytes(FileInputStream in) throws IOException {
+	byte[] buffer = null;
+	try {
+	  int length = in.available();
+	  buffer = new byte[length];
+	  in.read(buffer);
+	} catch (FileNotFoundException|IOException e) {
+	  throw e;
+	} finally {
+	  if (in != null)
+		in.close();
+	}
+	return buffer;
   }
 }
