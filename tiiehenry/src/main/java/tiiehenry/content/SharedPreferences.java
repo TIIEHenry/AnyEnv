@@ -55,7 +55,7 @@ public class SharedPreferences {
 	} else if (object instanceof Long) {
 	  editor.putLong(key, (Long) object);
 	} else if (object instanceof Set) {
-	  editor.putStringSet(key, (Set)object);
+	  editor.putStringSet(key, (Set<String>)object);
 	} else {
 	  editor.putString(key, object.toString());
 	}
@@ -73,17 +73,17 @@ public class SharedPreferences {
    * @return
    */
   @NonNull
-  public  Object get(String key, Object defObject) {
+  public  <T extends Object> T get(String key, Object defObject) {
 	if (defObject instanceof String) {
-	  return sp.getString(key, (String) defObject);
+	  return (T)sp.getString(key, (String) defObject);
 	} else if (defObject instanceof Integer) {
-	  return sp.getInt(key, (Integer) defObject);
+	  return (T)(Integer)sp.getInt(key, (Integer) defObject);
 	} else if (defObject instanceof Boolean) {
-	  return sp.getBoolean(key, (Boolean) defObject);
+	  return (T)(Boolean)sp.getBoolean(key, (Boolean) defObject);
 	} else if (defObject instanceof Float) {
-	  return sp.getFloat(key, (Float) defObject);
+	  return (T)(Float)sp.getFloat(key, (Float) defObject);
 	} else if (defObject instanceof Long) {
-	  return sp.getLong(key, (Long) defObject);
+	  return (T)(Long)sp.getLong(key, (Long) defObject);
 	}
 	return null;
   }

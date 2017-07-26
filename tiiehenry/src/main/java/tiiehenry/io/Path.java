@@ -1,8 +1,11 @@
 package tiiehenry.io;
 import java.io.*;
-import java.net.URI;
+import java.util.*;
+
 import android.support.annotation.NonNull;
 import android.util.ArrayMap;
+import java.net.URI;
+import java.text.DecimalFormat;
 
 //getter Path return String
 /**
@@ -36,11 +39,25 @@ public class Path extends File {
   }
 
   public Path parent() {
-	return new Path(getParent());
+	return parent(1);
+  }
+  public Path parent(int level) {
+	File f=this;
+	for (int i=0;i < level;i++) {
+	  f = this.getParentFile();
+	}
+	return new Path(f);
   }
 
   public String parentPath() {
 	return getParent();
+  }
+  public String parentPath(int level) {
+	return parent(level).toString();
+  }
+
+  public Path child(String name) {
+	return new Path(this, name);
   }
 
   public Path absolute() {
@@ -59,6 +76,10 @@ public class Path extends File {
 	return new FileOutputStream(this);
   }
 
+  //like 2.1M
+  public String getFormatedSize() {
+	return getFormatedSize(length());
+  }
 
   public boolean delete() {
 	if (isDirectory()) {
@@ -69,13 +90,35 @@ public class Path extends File {
 	}
 	return !exists();
   }
-  public boolean copyTo(File path)throws FileExistsException, IOException {
-	if (path.exists()) {
-	  throw new FileExistsException(path.toString());
+
+  public boolean copyTo(String path, boolean recover)throws FileExistsException, IOException {
+	return copyTo(new File(path), recover);
+  }
+  public boolean copyTo(File path, boolean recover)throws FileExistsException, IOException {
+	if (isFile()) {
+	  if (path.exists()) 
+		throw new FileExistsException(path.toString());
+	  if (!canRead())
+		throw new IOException("Couldn't read file:" + path.getParent());
+	  path.getParentFile().mkdirs();
+	  if ((!path.exists()) || recover) {
+		InputStream in=getInputStream();
+		OutputStream out=new FileOutputStream(path);
+		copyStream(in, out);
+		in.close();
+		out.close();
+	  }
+	} else if (isDirectory()) {
+	  path.mkdirs();
+	  ArrayMap<String, File> map=getDirMap();
+	  Iterator iter = map.entrySet().iterator();
+	  while (iter.hasNext()) {
+		Map.Entry entry = (Map.Entry) iter.next();
+		String name = (String) entry.getKey();
+		File sourceFile=(File) entry.getValue();
+		new Path(sourceFile).copyTo(path.getPath() + separator + name, recover);
+	  }
 	}
-	if (!(exists() && canRead() && path.canWrite()))
-	  return false;
-	copyStream(getInputStream(), new FileOutputStream(path));
 	return true;
   }
 
@@ -87,8 +130,6 @@ public class Path extends File {
 	try {
 	  bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(this, append)));
 	  bw.write(s);
-	} catch (IOException|FileNotFoundException e) {
-	  throw e;
 	} finally {
 	  if (bw != null)
 		bw.close();
@@ -104,23 +145,42 @@ public class Path extends File {
 	return readStreamString(getInputStream(), encoding);
   }
 
-  private void addFileToMap(ArrayMap<String,File> files, String namePerfix, File dir) {
+  private void addFileToMap(ArrayMap<String,File> size, String namePerfix, File dir) {
 	for (File f:dir.listFiles()) {
 	  String fname=f.getName();
 	  if (f.isFile()) {
-		files.put(namePerfix + fname, f);
+		size.put(namePerfix + fname, f);
 	  } else if (f.isDirectory()) {
-		addFileToMap(files, namePerfix + fname + "/", f);
+		size.put(namePerfix + fname + "/", f);
+		addFileToMap(size, namePerfix + fname + "/", f);
 	  }
 	}
   }
+
   //获取文件树 ("music/a.mp3",File)
+  //("music/",File)
   public ArrayMap<String,File> getDirMap() {
 	if (!isDirectory())
 	  return null;
-	ArrayMap<String,File> files=new ArrayMap<>();
-	addFileToMap(files, "", this);
-	return files;
+	ArrayMap<String,File> size=new ArrayMap<>();
+	addFileToMap(size, "", this);
+	return size;
+  }
+  public long getSize() {
+	long size=0;
+	if (isDirectory()) {
+	  for (File f:listFiles()) {
+		if (f.isDirectory()) {
+		  size += new Path(f).getSize();
+		} else if (f.isFile()) {
+		  size += f.length();
+		}
+	  }
+	  return size;
+	} else if (isFile()) {
+	  return length();
+	}
+	return 0;
   }
 
   public static void deleteDir(File dir) {
@@ -170,8 +230,6 @@ public class Path extends File {
 	  while ((lineTxt = bufferedReader.readLine()) != null) {
 		sb.append(lineTxt);
 	  }
-	} catch (UnsupportedEncodingException|IOException e) {
-	  throw e;
 	} finally {
 	  if (bufferedReader != null)
 		bufferedReader.close();
@@ -179,18 +237,31 @@ public class Path extends File {
 	return sb.toString();
   }
 
-  public static byte[] readBytes(FileInputStream in) throws IOException {
+  public static byte[] readStreamBytes(FileInputStream in) throws IOException {
 	byte[] buffer = null;
 	try {
 	  int length = in.available();
 	  buffer = new byte[length];
 	  in.read(buffer);
-	} catch (FileNotFoundException|IOException e) {
-	  throw e;
 	} finally {
 	  if (in != null)
 		in.close();
 	}
 	return buffer;
+  }
+
+  public static String getFormatedSize(long size) {
+	DecimalFormat df = new DecimalFormat("#.00");
+	String sizeizeString = "0K";
+	if (size < 1000) {
+	  sizeizeString = df.format((double) size) + "B";
+	} else if (size < 1024000) {
+	  sizeizeString = df.format((double) size / 1024) + "K";
+	} else if (size < 1048576000) {
+	  sizeizeString = df.format((double) size / 1048576) + "M";
+	} else {
+	  sizeizeString = df.format((double) size / 1073741824) + "G";
+	}
+	return sizeizeString;
   }
 }
