@@ -20,7 +20,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<ViewHo
   public abstract int getItemViewType(int position)
 
   @Override
-  public abstract ViewHolder onCreateViewHolder(ViewGroup parent, int pos)
+  public abstract ViewHolder<T> onCreateViewHolder(ViewGroup parent, int pos)
 
   @Override
   public void onBindViewHolder(ViewHolder<T> holder, int pos) {
