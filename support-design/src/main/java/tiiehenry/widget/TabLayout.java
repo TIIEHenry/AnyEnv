@@ -474,7 +474,7 @@ public class TabLayout extends HorizontalScrollView {
 	for (Iterator<Tab> i = mTabs.iterator(); i.hasNext(); ) {
 	  Tab tab = i.next();
 	  tab.setPosition(Tab.INVALID_POSITION);
-	  i.remove();
+	  mTabs.remove(tab);
 	}
   }
 

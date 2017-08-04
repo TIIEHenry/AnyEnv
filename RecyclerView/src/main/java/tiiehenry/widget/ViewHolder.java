@@ -5,8 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
 import java.util.List;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
+import tiiehenry.widget.BaseRecyclerAdapter.Listener;
 
-public abstract class ViewHolder<T> extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener {
+public class ViewHolder<T> extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener {
 
   // SparseArray 比 HashMap 更省内存，在某些条件下性能更好，只能存储 key 为 int 类型的数据，
   // 用来存放 View 以减少 findViewById 的次数
@@ -14,6 +17,8 @@ public abstract class ViewHolder<T> extends RecyclerView.ViewHolder implements V
 
   private View rootView;
   private T data;
+
+  private BaseRecyclerAdapter.Listener<T> listener;
   public ViewHolder(View itemView) {
 	super(itemView);
 	itemView.setOnClickListener(this);
@@ -21,7 +26,7 @@ public abstract class ViewHolder<T> extends RecyclerView.ViewHolder implements V
 	rootView = itemView;
 	viewSparseArray = new SparseArray<>();
   }
-  
+
   public void setData(T data) {
 	this.data = data;
   }
@@ -44,17 +49,21 @@ public abstract class ViewHolder<T> extends RecyclerView.ViewHolder implements V
 	return rootView;
   }
 
+  public void setListener(BaseRecyclerAdapter.Listener<T> lsn) {
+	listener = lsn;
+  }
   @Override
   public void onClick(View rootView) {
-	onItemClick(rootView, data, getAdapterPosition());
+	if (listener != null)
+	  listener.onItemClick(rootView, data, getAdapterPosition());
   }
   @Override
   public boolean onLongClick(View rootView) {
-	return onItemLongClick(rootView,data, getAdapterPosition());
+	if (listener != null)
+	  return listener.onItemLongClick(rootView, data, getAdapterPosition());
+	return true;
   }
-
-public abstract void onItemClick(View rootView, T data, int pos);
- public abstract boolean onItemLongClick(View rootView, T data, int pos);
+  
 
 
 }
