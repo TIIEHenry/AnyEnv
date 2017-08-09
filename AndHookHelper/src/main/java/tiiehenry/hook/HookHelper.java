@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import tiiehenry.hook.Hook;
 import apk.andhook.AndHook;
 
-public class HookHelper {
+public class HookHelper extends AndHook.HookHelper {
   public void applyHooks(Class<?> holdClass) {
 	for (Method hookMethod : holdClass.getDeclaredMethods()) {
 	  Hook hook = hookMethod.getAnnotation(Hook.class);
@@ -19,7 +19,7 @@ public class HookHelper {
 		}
 		if (origin == null)
 		  return;
-		AndHook.HookHelper.hook(origin, hookMethod);
+		hook(origin, hookMethod);
 	  }
 	}
   }

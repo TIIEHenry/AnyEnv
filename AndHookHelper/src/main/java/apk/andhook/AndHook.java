@@ -15,7 +15,7 @@ public class AndHook {
 		System.loadLibrary("andhook");
 	}
 
-	public static final class HookHelper {
+	public static class HookHelper {
 		private static final ConcurrentHashMap<Pair<String, String>, Integer> sBackups = new ConcurrentHashMap<>();
 
 		public static void hook(final Method origin, final Method replace) {
