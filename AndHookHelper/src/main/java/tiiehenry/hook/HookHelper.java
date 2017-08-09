@@ -12,6 +12,7 @@ public class HookHelper {
 	  Hook hook = hookMethod.getAnnotation(Hook.class);
 	  if (hook != null) {
 		Method origin=null;
+		AndHook.ensureClassInitialized(hook.clazz());
 		try {
 		  origin = hook.clazz().getDeclaredMethod(hook.method(), (Class[])hook.param());
 		} catch (SecurityException|NoSuchMethodException e) {

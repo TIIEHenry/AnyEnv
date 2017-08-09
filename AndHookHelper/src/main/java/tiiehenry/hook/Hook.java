@@ -13,7 +13,7 @@ import java.util.List;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Hook {
-  Class clazz();
+  Class<?> clazz();
   String method();
   Object[] param();//Class[]
 }
