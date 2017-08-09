@@ -16,7 +16,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int layoutManager=0x7f010000;
+        public static int layoutManager=0x7f010000;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -24,7 +24,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int reverseLayout=0x7f010002;
+        public static int reverseLayout=0x7f010002;
         /** <p>Must be an integer value, such as "<code>100</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -32,7 +32,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int spanCount=0x7f010001;
+        public static int spanCount=0x7f010001;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -40,15 +40,15 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int stackFromEnd=0x7f010003;
+        public static int stackFromEnd=0x7f010003;
     }
     public static final class dimen {
-        public static final int item_touch_helper_max_drag_scroll_per_frame=0x7f020000;
-        public static final int item_touch_helper_swipe_escape_max_velocity=0x7f020001;
-        public static final int item_touch_helper_swipe_escape_velocity=0x7f020002;
+        public static int item_touch_helper_max_drag_scroll_per_frame=0x7f020000;
+        public static int item_touch_helper_swipe_escape_max_velocity=0x7f020001;
+        public static int item_touch_helper_swipe_escape_velocity=0x7f020002;
     }
     public static final class id {
-        public static final int item_touch_helper_previous_elevation=0x7f030000;
+        public static int item_touch_helper_previous_elevation=0x7f030000;
     }
     public static final class styleable {
         /** Attributes that can be used with a RecyclerView.
@@ -80,13 +80,13 @@ containing a value of this type.
           attribute's value can be found in the {@link #RecyclerView} array.
           @attr name android:descendantFocusability
         */
-        public static final int RecyclerView_android_descendantFocusability = 1;
+        public static int RecyclerView_android_descendantFocusability = 1;
         /**
           <p>This symbol is the offset where the {@link android.R.attr#orientation}
           attribute's value can be found in the {@link #RecyclerView} array.
           @attr name android:orientation
         */
-        public static final int RecyclerView_android_orientation = 0;
+        public static int RecyclerView_android_orientation = 0;
         /**
           <p>This symbol is the offset where the {@link tiiehenry.widget.R.attr#layoutManager}
           attribute's value can be found in the {@link #RecyclerView} array.
@@ -100,7 +100,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name tiiehenry.widget:layoutManager
         */
-        public static final int RecyclerView_layoutManager = 2;
+        public static int RecyclerView_layoutManager = 2;
         /**
           <p>This symbol is the offset where the {@link tiiehenry.widget.R.attr#reverseLayout}
           attribute's value can be found in the {@link #RecyclerView} array.
@@ -114,7 +114,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name tiiehenry.widget:reverseLayout
         */
-        public static final int RecyclerView_reverseLayout = 4;
+        public static int RecyclerView_reverseLayout = 4;
         /**
           <p>This symbol is the offset where the {@link tiiehenry.widget.R.attr#spanCount}
           attribute's value can be found in the {@link #RecyclerView} array.
@@ -128,7 +128,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name tiiehenry.widget:spanCount
         */
-        public static final int RecyclerView_spanCount = 3;
+        public static int RecyclerView_spanCount = 3;
         /**
           <p>This symbol is the offset where the {@link tiiehenry.widget.R.attr#stackFromEnd}
           attribute's value can be found in the {@link #RecyclerView} array.
@@ -142,6 +142,6 @@ theme attribute (in the form
 containing a value of this type.
           @attr name tiiehenry.widget:stackFromEnd
         */
-        public static final int RecyclerView_stackFromEnd = 5;
+        public static int RecyclerView_stackFromEnd = 5;
     };
 }

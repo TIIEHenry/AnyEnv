@@ -1,6 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-
-          package="tiiehenry.lang"
-    >
-
+	package="tiiehenry.lang">
+	<application>
+		<service
+			android:name="tiiehenry.app.ActionService"
+			android:enabled="true"
+			android:exported="false"/>
+	</application>
 </manifest>

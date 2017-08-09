@@ -27,7 +27,7 @@ public class CrashHandler  implements UncaughtExceptionHandler {
   /** 保证只有一个CrashHandler实例 */
   private CrashHandler() {
   }
-  
+
   /** 获取CrashHandler实例 ,单例模式 */
   public static CrashHandler getInstance() {
 	return INSTANCE;
@@ -38,14 +38,16 @@ public class CrashHandler  implements UncaughtExceptionHandler {
    *
    * @param context
    */
-  public void init(Context context, File traceDir) {
-	init(context,traceDir.toString());
+  public CrashHandler init(Context context, File traceDir) {
+	init(context, traceDir.toString());
+	return this;
   }
-  public void init(Context context, String traceDir) {
+  public CrashHandler init(Context context, String traceDir) {
 	mContext = context;
 	this.dir = new File(traceDir);
 	mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();// 获取系统默认的UncaughtException处理器
 	Thread.setDefaultUncaughtExceptionHandler(this);// 设置该CrashHandler为程序的默认处理器
+	return this;
   }
 
   /**
@@ -55,7 +57,8 @@ public class CrashHandler  implements UncaughtExceptionHandler {
 	if (!handleException(ex) && mDefaultHandler != null) {
 	  // 如果自定义的没有处理则让系统默认的异常处理器来处理
 	  mDefaultHandler.uncaughtException(thread, ex);
-	} else {
+	}
+	else {
 	  try {
 		Thread.sleep(3000);// 如果处理了，让程序继续运行3秒再退出，保证文件保存或者上传到服务器
 	  } catch (InterruptedException e) {
@@ -80,8 +83,13 @@ public class CrashHandler  implements UncaughtExceptionHandler {
 	new Thread() {
 	  public void run() {
 		Looper.prepare();
-		Toast.makeText(mContext, "出现闪退了正在把日志保存到"+dir+"目录下", 0).show();
+		Toast.makeText(mContext, "出现闪退了正在把日志保存到" + dir + "目录下", 0).show();
 		Looper.loop();
+		try {
+		  Thread.sleep(1500);
+		} catch (InterruptedException e) {}
+		android.os.Process.killProcess(android.os.Process.myPid());
+		System.exit(1);
 	  }
 	}.start();
 	// 收集设备参数信息
@@ -155,7 +163,7 @@ public class CrashHandler  implements UncaughtExceptionHandler {
   public static void writeToFile(String s) {
 	long timetamp = System.currentTimeMillis();
 	String time = format.format(new Date());
-	Path path = new Path(dir,time + "-" + timetamp + ".trace");
+	Path path = new Path(dir, time + "-" + timetamp + ".trace");
 	path.getParentFile().mkdir();
 	try {
 	  path.writeString(s);
